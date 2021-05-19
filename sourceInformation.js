@@ -38,7 +38,7 @@ var sourceInfo = {
                     //If a screep is standing in this spot or it's a wall, it is taken and inaccessible.
                     if(creep.pos == pos || terrain.get(pos.x, pos.y) == 1)
                     {
-                        return true; 
+                        
                     }
                     else
                     {
