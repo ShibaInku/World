@@ -6,7 +6,8 @@
  * var mod = require('role.builder');
  * mod.thing == 'a thing'; // true
  */
-function sourceInfo() {
+var sourceInfo = {
+    run: function()
     {
         var sources = Room.find(FIND_SOURCES);
         var source1;
