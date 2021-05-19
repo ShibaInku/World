@@ -1,3 +1,4 @@
+var sourceInfo = require('sourceInformation');
 var roleHarvester = {
 
     /** @param {Creep} creep **/

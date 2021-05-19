@@ -3,7 +3,7 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 
 module.exports.loop = function () {
-
+    //Delete nonexistent creeps from memory
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
@@ -11,6 +11,7 @@ module.exports.loop = function () {
         }
     }
 
+    //Put all creeps from each role into their own arrays
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
@@ -18,7 +19,7 @@ module.exports.loop = function () {
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     console.log('Builders: ' + builders.length);
 
-    //Spawn caps and roles
+    //Spawning each role according to spawn caps
     if(harvesters.length < 10) {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
@@ -31,14 +32,14 @@ module.exports.loop = function () {
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName, 
             {memory: {role: 'upgrader'}});
     }
-    if(builders.length < 3) {
+    if(builders.length < 5) {
         var newName = 'Builder' + Game.time;
         console.log('Spawning new builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'builder'}});
     }
     
-    
+    //Making Spawn look fancy
     if(Game.spawns['Spawn1'].spawning) { 
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
         Game.spawns['Spawn1'].room.visual.text(
@@ -48,6 +49,7 @@ module.exports.loop = function () {
             {align: 'left', opacity: 0.8});
     }
 
+    //Run the actual creeps
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
@@ -55,6 +57,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);
+        }
+        if(creep.memory.role == 'builder'){
+            roleBuilder.run(creep);
         }
     }
 }
