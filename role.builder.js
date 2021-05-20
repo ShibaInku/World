@@ -11,18 +11,19 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
+		var containers = creep.room.find(FIND_STRUCTURES, {
+			filter: (structure) => {
+				return (structure.structureType == STRUCTURE_CONTAINER) &&
+					structure.store.getFreeCapacity(RESOURCE_ENERGY) >= 0;
+			}
+		});
 	    if(creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.building = false;
 			creep.memory.storing = false;
 			creep.memory.repairing = false;
             creep.say('🔄 harvest');
 	    }
-		else if (creep.store.getFreeCapacity() == 0 && creep.room.find(FIND_MY_STRUCTURES).hits <= creep.room.find(FIND_MY_STRUCTURES).hitsMax - 20000,{
-			filter: {
-				structureType: STRUCTURE_CONTAINER
-			}
-		})
+		else if (creep.store.getFreeCapacity() == 0 && (containers[0].hits <= containers[0].hitsMax - 20000 || containers[1].hits <= containers[1].hitsMax - 20000 || containers[2].hits <= containers[2].hitsMax - 20000 || containers[3].hits <= containers[3].hitsMax - 20000))
 		{
 			creep.memory.building = false;
 			creep.memory.storing = false;
@@ -68,12 +69,7 @@ var roleBuilder = {
 		}
 		else if (creep.memory.repairing)
 		{
-			var targets = creep.room.find(FIND_STRUCTURES, {
-				filter: (structure) => {
-					return (structure.structureType == STRUCTURE_CONTAINER) &&
-						structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
-				}
-			});
+			var targets = containers;
 			if(targets.length > 0) {
 				if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
 					creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
