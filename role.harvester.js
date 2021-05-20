@@ -13,7 +13,7 @@ var roleHarvester = {
         }
         else {
             var targets;
-            if(creep.room.energyCapacityAvailable <= creep.room.energyAvailable)
+            if(creep.room.energyCapacityAvailable == creep.room.energyAvailable)
             {
                 targets = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {

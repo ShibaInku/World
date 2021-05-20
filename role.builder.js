@@ -17,6 +17,7 @@ var roleBuilder = {
 					structure.store.getFreeCapacity(RESOURCE_ENERGY) >= 0;
 			}
 		});
+		var brokenContainer;
 	    if(creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.building = false;
 			creep.memory.storing = false;
@@ -29,6 +30,26 @@ var roleBuilder = {
 			creep.memory.storing = false;
 			creep.memory.repairing = true;
 			creep.say(' repair');
+			if(containers[0].hits <= containers[0].hitsMax - 20000)
+			{
+				brokenContainer = 0;
+			}
+			else if(containers[1].hits <= containers[1].hitsMax - 20000)
+			{
+				brokenContainer = 1;
+			}
+			else if(containers[2].hits <= containers[2].hitsMax - 20000)
+			{
+				brokenContainer = 2;
+			}
+			else if(containers[3].hits <= containers[3].hitsMax - 20000)
+			{
+				brokenContainer = 3;
+			}
+			else if(containers[0].hits <= containers[0].hitsMax - 20000)
+			{
+				brokenContainer = 4;
+			}
 		}
 	    else if(creep.store.getFreeCapacity() == 0 && creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0) {
 	        creep.memory.building = true;
@@ -71,8 +92,8 @@ var roleBuilder = {
 		{
 			var targets = containers;
 			if(targets.length > 0) {
-				if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-					creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+				if(creep.repair(targets[brokenContainer]) == ERR_NOT_IN_RANGE) {
+					creep.moveTo(targets[brokenContainer], {visualizePathStyle: {stroke: '#ffffff'}});
 				}
 			}
 		}
