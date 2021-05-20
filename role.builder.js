@@ -12,25 +12,13 @@ var roleBuilder = {
     /** @param {Creep} creep **/
     run: function(creep) {
 		var containers = creep.room.find(FIND_STRUCTURES, {
-			filter: (structure) => {
-				return (structure.structureType == STRUCTURE_CONTAINER) &&
-					structure.store.getFreeCapacity(RESOURCE_ENERGY) >= 0;
-			}
-		});
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_CONTAINER) &&
+                    structure.store.getFreeCapacity(RESOURCE_ENERGY) >= 0 && structure.hits <= structure.hitsMax - 20000;
+            }
+        });
 		var brokenContainer;
-	    if(creep.store[RESOURCE_ENERGY] == 0) {
-            creep.memory.building = false;
-			creep.memory.storing = false;
-			creep.memory.repairing = false;
-            creep.say('🔄 harvest');
-	    }
-		else if (creep.store.getFreeCapacity() == 0 && (containers[0].hits <= containers[0].hitsMax - 20000 || containers[1].hits <= containers[1].hitsMax - 20000 || containers[2].hits <= containers[2].hitsMax - 20000 || containers[3].hits <= containers[3].hitsMax - 20000))
-		{
-			creep.memory.building = false;
-			creep.memory.storing = false;
-			creep.memory.repairing = true;
-			creep.say(' repair');
-			if(containers[0].hits <= containers[0].hitsMax - 20000)
+		if(containers[0].hits <= containers[0].hitsMax - 20000)
 			{
 				brokenContainer = 0;
 			}
@@ -50,6 +38,19 @@ var roleBuilder = {
 			{
 				brokenContainer = 4;
 			}
+	    if(creep.store[RESOURCE_ENERGY] == 0) {
+            creep.memory.building = false;
+			creep.memory.storing = false;
+			creep.memory.repairing = false;
+            creep.say('🔄 harvest');
+	    }
+		else if (creep.store.getFreeCapacity() == 0 && (containers[0].hits <= containers[0].hitsMax - 20000 || containers[1].hits <= containers[1].hitsMax - 20000 || containers[2].hits <= containers[2].hitsMax - 20000 || containers[3].hits <= containers[3].hitsMax - 20000))
+		{
+			creep.memory.building = false;
+			creep.memory.storing = false;
+			creep.memory.repairing = true;
+			creep.say(' repair');
+			
 		}
 	    else if(creep.store.getFreeCapacity() == 0 && creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0) {
 	        creep.memory.building = true;
