@@ -90,10 +90,9 @@ var roleBuilder = {
 		}
 		else if (creep.memory.repairing)
 		{
-			var targets = containers;
-			if(targets.length > 0) {
-				if(creep.repair(targets[brokenContainer]) == ERR_NOT_IN_RANGE) {
-					creep.moveTo(targets[brokenContainer], {visualizePathStyle: {stroke: '#ffffff'}});
+			if(containers.length > 0) {
+				if(creep.repair(containers[brokenContainer]) == ERR_NOT_IN_RANGE) {
+					creep.moveTo(containers[brokenContainer], {visualizePathStyle: {stroke: '#ffffff'}});
 				}
 			}
 		}
