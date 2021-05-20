@@ -18,33 +18,43 @@ var roleBuilder = {
             }
         });
 		var brokenContainer;
-		if(containers[0].hits <= containers[0].hitsMax - 20000)
+		if(containers.length > 0)
+		{
+			if(containers[0].hits <= containers[0].hitsMax)
 			{
 				brokenContainer = 0;
 			}
-			else if(containers[1].hits <= containers[1].hitsMax - 20000)
+			else if(containers[1].hits <= containers[1].hitsMax)
 			{
 				brokenContainer = 1;
 			}
-			else if(containers[2].hits <= containers[2].hitsMax - 20000)
+			else if(containers[2].hits <= containers[2].hitsMax)
 			{
 				brokenContainer = 2;
 			}
-			else if(containers[3].hits <= containers[3].hitsMax - 20000)
+			else if(containers[3].hits <= containers[3].hitsMax)
 			{
 				brokenContainer = 3;
 			}
-			else if(containers[0].hits <= containers[0].hitsMax - 20000)
+			else if(containers[4].hits <= containers[4].hitsMax)
 			{
 				brokenContainer = 4;
 			}
+		}
+		
 	    if(creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.building = false;
 			creep.memory.storing = false;
 			creep.memory.repairing = false;
             creep.say('🔄 harvest');
 	    }
-		else if (creep.store.getFreeCapacity() == 0 && (containers[0].hits <= containers[0].hitsMax - 20000 || containers[1].hits <= containers[1].hitsMax - 20000 || containers[2].hits <= containers[2].hitsMax - 20000 || containers[3].hits <= containers[3].hitsMax - 20000))
+		else if(creep.store.getFreeCapacity() == 0 && creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0) {
+	        creep.memory.building = true;
+			creep.memory.storing = false;
+			creep.memory.repairing = false;
+	        creep.say('🚧 build');
+	    }
+		else if (creep.store.getFreeCapacity() == 0 && (containers[0].hits <= containers[0].hitsMax  || containers[1].hits <= containers[1].hitsMax || containers[2].hits <= containers[2].hitsMax || containers[3].hits <= containers[3].hitsMax))
 		{
 			creep.memory.building = false;
 			creep.memory.storing = false;
@@ -52,12 +62,6 @@ var roleBuilder = {
 			creep.say(' repair');
 			
 		}
-	    else if(creep.store.getFreeCapacity() == 0 && creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0) {
-	        creep.memory.building = true;
-			creep.memory.storing = false;
-			creep.memory.repairing = false;
-	        creep.say('🚧 build');
-	    }
 		else if (creep.store.getFreeCapacity() == 0)
 		{
 			creep.memory.building = false;
