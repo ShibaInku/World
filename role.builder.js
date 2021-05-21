@@ -54,13 +54,14 @@ var roleBuilder = {
 			creep.memory.repairing = false;
 	        creep.say('🚧 build');
 	    }
-		else if (creep.store.getFreeCapacity() == 0 && (containers[0].hits <= containers[0].hitsMax  || containers[1].hits <= containers[1].hitsMax || containers[2].hits <= containers[2].hitsMax || containers[3].hits <= containers[3].hitsMax))
+		else if (creep.store.getFreeCapacity() == 0 && containers.length > 0)
 		{
-			creep.memory.building = false;
+			if(containers[0].hits <= containers[0].hitsMax  || containers[1].hits <= containers[1].hitsMax || containers[2].hits <= containers[2].hitsMax || containers[3].hits <= containers[3].hitsMax){
+				creep.memory.building = false;
 			creep.memory.storing = false;
 			creep.memory.repairing = true;
 			creep.say(' repair');
-			
+			}	
 		}
 		else if (creep.store.getFreeCapacity() == 0)
 		{
